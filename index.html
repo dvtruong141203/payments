@@ -3,13 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-  <title>Thanh toán online</title>
+  <title>Vietcombank</title>
+  <!-- Logo nhỏ trên tab trình duyệt -->
+  <link rel="icon" href="https://portal.vietcombank.com.vn/favicon.ico" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #0052FF;
-      --primary-hover: #0043D1;
-      --primary-light: #E5F0FF;
+      /* Chuyển tông màu chủ đạo sang Xanh Vietcombank */
+      --primary: #008947; 
+      --primary-hover: #00703A;
+      --primary-light: #E6F3EC;
       --success: #10B981;
       --danger: #EF4444;
       --bg-color: #F4F7F9;
@@ -26,8 +29,8 @@
     body { 
       font-family: 'Plus Jakarta Sans', sans-serif; 
       background: var(--bg-color);
-      /* Nền gradient hiện đại, nhẹ nhàng */
-      background-image: radial-gradient(at 0% 0%, hsla(217,100%,94%,1) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(253,100%,94%,1) 0, transparent 50%);
+      /* Nền gradient hiện đại, nhẹ nhàng (Ánh xanh lá) */
+      background-image: radial-gradient(at 0% 0%, hsla(146, 100%, 94%, 1) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(150, 100%, 94%, 1) 0, transparent 50%);
       display: flex; 
       justify-content: center; 
       color: var(--text-main); 
@@ -40,7 +43,11 @@
     .screen.active { display: flex; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    .header-title { font-size: 14px; font-weight: 800; text-align: center; margin-bottom: 16px; margin-top: 4px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; }
+    /* Logo Vietcombank */
+    .brand-header { text-align: center; margin-bottom: 8px; margin-top: 4px; }
+    .brand-logo { height: 28px; width: auto; object-fit: contain; }
+
+    .header-title { font-size: 13px; font-weight: 800; text-align: center; margin-bottom: 16px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; }
     
     /* Thẻ Card Trắng Tinh Tế */
     .card { background: var(--card-bg); border-radius: 24px; padding: 16px; margin-bottom: 16px; box-shadow: var(--shadow-soft); border: 1px solid rgba(255,255,255,0.8); }
@@ -51,7 +58,7 @@
     
     /* Nút lưu mã QR sang trọng */
     .btn-save-qr { background: var(--primary-light); color: var(--primary); border: none; border-radius: 50px; padding: 8px 20px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; font-family: inherit; margin-bottom: 12px; }
-    .btn-save-qr:active { transform: scale(0.95); background: #d0e3ff; }
+    .btn-save-qr:active { transform: scale(0.95); background: #CBE6D8; }
 
     /* Các dòng Copy thông tin */
     .copy-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-color); transition: all 0.2s; }
@@ -77,8 +84,8 @@
     .note-list li span { font-weight: 800; color: #D97706; }
 
     /* Màn hình thành công */
-    .success-icon { width: 68px; height: 68px; background: #E0F2FE; color: #0284C7; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; border: 4px solid #F0F9FF; box-shadow: 0 10px 20px rgba(2, 132, 199, 0.1); animation: pulse 2s infinite; }
-    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.2); } 70% { box-shadow: 0 0 0 15px rgba(2, 132, 199, 0); } 100% { box-shadow: 0 0 0 0 rgba(2, 132, 199, 0); } }
+    .success-icon { width: 68px; height: 68px; background: var(--primary-light); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; border: 4px solid #F0FDF4; box-shadow: 0 10px 20px rgba(0, 137, 71, 0.1); animation: pulse 2s infinite; }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0, 137, 71, 0.2); } 70% { box-shadow: 0 0 0 15px rgba(0, 137, 71, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 137, 71, 0); } }
     
     .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; font-size: 14px; padding-bottom: 12px; border-bottom: 1px dashed var(--border-color); }
     .row:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
@@ -89,7 +96,7 @@
     .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px); background: #1E293B; color: #fff; padding: 12px 24px; border-radius: 30px; font-size: 13px; font-weight: 600; opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); z-index: 100; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
     .toast.show { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
 
-    .spinner { border: 3px solid rgba(0, 82, 255, 0.1); width: 36px; height: 36px; border-radius: 50%; border-left-color: var(--primary); animation: spin 1s linear infinite; margin-bottom: 16px; }
+    .spinner { border: 3px solid rgba(0, 137, 71, 0.1); width: 36px; height: 36px; border-radius: 50%; border-left-color: var(--primary); animation: spin 1s linear infinite; margin-bottom: 16px; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
   </style>
 </head>
@@ -113,6 +120,11 @@
     <!-- BILL THANH TOÁN -->
     <div id="screen-bill" class="screen">
       
+      <!-- LOGO VIETCOMBANK TRÊN CÙNG -->
+      <div class="brand-header">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b3/Vietcombank_logo.svg" alt="Vietcombank" class="brand-logo">
+      </div>
+
       <!-- GIAO DIỆN CHƯA THANH TOÁN -->
       <div id="bill-unpaid" style="display: flex; flex-direction: column; min-height: 100%;">
         <div class="header-title" id="app-title-bill">MÃ GD: ---</div>
@@ -197,7 +209,7 @@
         <div class="success-icon">
           <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
         </div>
-        <h2 style="margin: 0 0 24px; color: #0284C7; font-size: 22px;">Giao dịch thành công</h2>
+        <h2 style="margin: 0 0 24px; color: var(--primary); font-size: 22px;">Giao dịch thành công</h2>
         
         <div class="card" style="margin: 0; text-align: left;">
           <div class="row"><span class="label">Mã giao dịch</span><span class="value" id="bl-paid-id" style="font-family: monospace;">---</span></div>
@@ -241,7 +253,6 @@
         .then(res => res.json())
         .then(result => {
           if (result.success) {
-            document.title = "Đơn Hàng " + result.data.id;
             renderData(result.data);
             switchScreen('bill');
           } else {
@@ -306,7 +317,8 @@
       }, 2000); 
     }
 
-    /* TÍNH NĂNG LƯU MÃ QR */
+    
+       /* TÍNH NĂNG LƯU MÃ QR */
     function downloadQR() {
       showToast("Đang tạo ảnh...");
       const qrUrl = document.getElementById('qr-img').src;
@@ -339,7 +351,7 @@
         ctx.font = '18px Arial, sans-serif';
         ctx.fillText('Mã GD: ' + currentId, canvas.width / 2, 420);
         
-        ctx.fillStyle = '#0052FF';
+        ctx.fillStyle = '#008947'; // Đổi màu chữ tiền trên bill tải về sang xanh VCB
         ctx.font = 'bold 28px Arial, sans-serif';
         ctx.fillText(amount, canvas.width / 2, 470);
         
@@ -352,7 +364,7 @@
         ctx.fillText('Sử dụng App Ngân hàng quét mã để thanh toán', canvas.width / 2, 580);
         
         const link = document.createElement('a');
-        link.download = 'QR_ThanhToan_' + currentId + '.png';
+        link.download = 'QR_Vietcombank_' + currentId + '.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
       };
@@ -361,7 +373,7 @@
       img.src = qrUrl;
     }
 
-   function copyText(id) { 
+    function copyText(id) { 
       var textToCopy = document.getElementById(id).innerText.replace(/ VNĐ/g, '').replace(/ đ/g, '').replace(/\./g, '');
       var textArea = document.createElement("textarea");
       textArea.value = textToCopy;
