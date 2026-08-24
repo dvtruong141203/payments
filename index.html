@@ -3,105 +3,93 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-  <title>Cổng Thanh Toán</title>
+  <title>Thanh toán online</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-gradient: linear-gradient(135deg, #020617 0%, #0f172a 100%);
-      --glass-bg: rgba(255, 255, 255, 0.03);
-      --glass-border: rgba(255, 255, 255, 0.08);
-      --glass-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.5);
-      --text-main: #f8fafc; --text-muted: #94a3b8; 
-      --accent-blue: #38bdf8; --accent-green: #34d399; --accent-yellow: #fbbf24; --accent-red: #f87171;
+      --primary: #0052FF;
+      --primary-hover: #0043D1;
+      --primary-light: #E5F0FF;
+      --success: #10B981;
+      --danger: #EF4444;
+      --bg-color: #F4F7F9;
+      --card-bg: #FFFFFF;
+      --text-main: #0A2540;
+      --text-muted: #4F6784;
+      --border-color: #E2E8F0;
+      --shadow-soft: 0 24px 48px -12px rgba(10, 37, 64, 0.12);
     }
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     
-    html, body {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-    }
+    html, body { width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden; }
 
     body { 
       font-family: 'Plus Jakarta Sans', sans-serif; 
-      background: var(--bg-gradient); 
+      background: var(--bg-color);
+      /* Nền gradient hiện đại, nhẹ nhàng */
+      background-image: radial-gradient(at 0% 0%, hsla(217,100%,94%,1) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(253,100%,94%,1) 0, transparent 50%);
       display: flex; 
       justify-content: center; 
       color: var(--text-main); 
       position: relative; 
     }
-    
-    body::before, body::after { content: ''; position: absolute; border-radius: 50%; filter: blur(70px); z-index: 0; opacity: 0.3; pointer-events: none; }
-    body::before { width: 250px; height: 250px; background: rgba(56, 189, 248, 0.2); top: -80px; left: -80px; }
-    body::after { width: 200px; height: 200px; background: rgba(52, 211, 153, 0.15); bottom: -40px; right: -40px; }
 
-    .app-container { 
-      width: 100%; 
-      max-width: 400px; 
-      height: 100vh;
-      height: 100dvh; 
-      position: relative; 
-      z-index: 1; 
-      display: flex; 
-      flex-direction: column;
-      overflow-y: auto;
-      overflow-x: hidden;
-      -webkit-overflow-scrolling: touch; 
-    }
+    .app-container { width: 100%; max-width: 400px; height: 100vh; height: 100dvh; position: relative; z-index: 1; display: flex; flex-direction: column; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
     
-    .screen { 
-      display: none; 
-      flex-direction: column; 
-      flex-grow: 1; 
-      padding: clamp(12px, 4vw, 20px); 
-      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
-    }
+    .screen { display: none; flex-direction: column; flex-grow: 1; padding: clamp(16px, 4vw, 24px); animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
     .screen.active { display: flex; }
-    @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    .header-title { font-size: 15px; font-weight: 800; text-align: center; margin-bottom: 16px; margin-top: 8px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+    .header-title { font-size: 14px; font-weight: 800; text-align: center; margin-bottom: 16px; margin-top: 4px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; }
     
-    .card { background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 20px; padding: 16px; margin-bottom: 16px; box-shadow: var(--glass-shadow); }
+    /* Thẻ Card Trắng Tinh Tế */
+    .card { background: var(--card-bg); border-radius: 24px; padding: 16px; margin-bottom: 16px; box-shadow: var(--shadow-soft); border: 1px solid rgba(255,255,255,0.8); }
     
-    .qr-box { text-align: center; background: rgba(255, 255, 255, 0.95); padding: 10px; border-radius: 16px; margin: 0 auto 16px; display: inline-block; width: fit-content; box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
-    .qr-box img { width: clamp(140px, 45vw, 170px); height: auto; aspect-ratio: 1/1; border-radius: 10px; display: block; }
+    /* Khối QR Code */
+    .qr-box { text-align: center; background: #ffffff; padding: 12px; border-radius: 20px; margin: 0 auto 12px; display: inline-block; width: fit-content; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+    .qr-box img { width: clamp(140px, 42vw, 170px); height: auto; aspect-ratio: 1/1; border-radius: 12px; display: block; }
     
-    .copy-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 12px; margin-bottom: 8px; transition: all 0.2s; }
-    .copy-item:active { background: rgba(255, 255, 255, 0.05); }
-    .copy-item:last-child { margin-bottom: 0; }
-    
-    .copy-info { display: flex; flex-direction: column; overflow: hidden; padding-right: 10px; width: 100%; }
-    .copy-lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-bottom: 2px; letter-spacing: 0.5px; }
-    .copy-val { font-size: 13px; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .copy-val.highlight { color: var(--accent-blue); font-size: 14px; font-weight: 800; }
-    
-    .btn-copy { background: rgba(56, 189, 248, 0.1); color: var(--accent-blue); border-radius: 8px; padding: 6px 12px; font-size: 11px; font-weight: 700; cursor: pointer; flex-shrink: 0; }
-    .btn-copy:active { transform: scale(0.92); }
+    /* Nút lưu mã QR sang trọng */
+    .btn-save-qr { background: var(--primary-light); color: var(--primary); border: none; border-radius: 50px; padding: 8px 20px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; font-family: inherit; margin-bottom: 12px; }
+    .btn-save-qr:active { transform: scale(0.95); background: #d0e3ff; }
 
-    /* Khối Lưu ý */
-    .note-box { background: rgba(168, 85, 247, 0.05); border: 1px dashed rgba(168, 85, 247, 0.2); border-radius: 16px; padding: 16px; margin-top: 16px; text-align: left; }
-    .note-title { font-size: 14px; font-weight: 800; color: #c084fc; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
-    .note-list { list-style: none; padding: 0; margin: 0; font-size: 12px; color: var(--text-muted); line-height: 1.6; }
-    .note-list li { margin-bottom: 8px; display: flex; align-items: flex-start; gap: 6px; }
+    /* Các dòng Copy thông tin */
+    .copy-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-color); transition: all 0.2s; }
+    .copy-item:last-child { border-bottom: none; padding-bottom: 4px; }
+    .copy-item:first-child { padding-top: 4px; }
+    
+    .copy-info { display: flex; flex-direction: column; overflow: hidden; padding-right: 12px; width: 100%; }
+    .copy-lbl { font-size: 11px; color: var(--text-muted); font-weight: 600; margin-bottom: 4px; }
+    .copy-val { font-size: 14px; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .copy-val.highlight { color: var(--primary); font-size: 16px; font-weight: 800; }
+    
+    /* Nút Copy Icon thay cho Text */
+    .btn-copy-icon { background: #F8FAFC; border: 1px solid var(--border-color); color: var(--text-muted); border-radius: 12px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: all 0.2s; }
+    .btn-copy-icon:active { transform: scale(0.9); background: var(--primary-light); color: var(--primary); border-color: var(--primary-light); }
+    .btn-copy-icon svg { width: 16px; height: 16px; }
+
+    /* Khối Lưu ý phong cách hiện đại */
+    .note-box { background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 16px; padding: 14px; margin-top: 8px; text-align: left; }
+    .note-title { font-size: 13px; font-weight: 800; color: #D97706; display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+    .note-list { list-style: none; padding: 0; margin: 0; font-size: 12px; color: #64748B; line-height: 1.5; }
+    .note-list li { margin-bottom: 6px; display: flex; align-items: flex-start; gap: 6px; }
     .note-list li:last-child { margin-bottom: 0; }
-    .note-list li span { font-weight: 800; color: #c084fc; }
+    .note-list li span { font-weight: 800; color: #D97706; }
 
-    /* Nút Quay lại thu gọn */
-    .btn-compact { background: transparent; border: none; color: var(--text-muted); font-size: 13px; font-weight: 600; cursor: pointer; padding: 10px; display: inline-flex; align-items: center; justify-content: center; margin: 0 auto; transition: all 0.2s; text-decoration: none; }
-    .btn-compact:active { color: var(--text-main); transform: scale(0.95); }
-
-    .success-icon { width: 60px; height: 60px; background: rgba(52, 211, 153, 0.1); color: var(--accent-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; border: 2px solid rgba(52, 211, 153, 0.3); box-shadow: 0 0 20px rgba(52, 211, 153, 0.15); }
-    .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 12px; }
-    .row:last-child { margin-bottom: 0; }
-    .row .label { color: var(--text-muted); font-weight: 500; }
-    .row .value { font-weight: 700; color: var(--text-main); }
+    /* Màn hình thành công */
+    .success-icon { width: 68px; height: 68px; background: #E0F2FE; color: #0284C7; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; border: 4px solid #F0F9FF; box-shadow: 0 10px 20px rgba(2, 132, 199, 0.1); animation: pulse 2s infinite; }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.2); } 70% { box-shadow: 0 0 0 15px rgba(2, 132, 199, 0); } 100% { box-shadow: 0 0 0 0 rgba(2, 132, 199, 0); } }
     
-    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(20px); background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); color: #fff; padding: 10px 20px; border-radius: 30px; font-size: 12px; font-weight: 600; opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); z-index: 100; border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow); }
+    .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; font-size: 14px; padding-bottom: 12px; border-bottom: 1px dashed var(--border-color); }
+    .row:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
+    .row .label { color: var(--text-muted); font-weight: 500; }
+    .row .value { font-weight: 800; color: var(--text-main); }
+    
+    /* Thông báo nổi */
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px); background: #1E293B; color: #fff; padding: 12px 24px; border-radius: 30px; font-size: 13px; font-weight: 600; opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); z-index: 100; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
     .toast.show { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
 
-    .spinner { border: 3px solid rgba(255, 255, 255, 0.1); width: 36px; height: 36px; border-radius: 50%; border-left-color: var(--accent-blue); animation: spin 1s linear infinite; margin-bottom: 16px; }
+    .spinner { border: 3px solid rgba(0, 82, 255, 0.1); width: 36px; height: 36px; border-radius: 50%; border-left-color: var(--primary); animation: spin 1s linear infinite; margin-bottom: 16px; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
   </style>
 </head>
@@ -112,27 +100,34 @@
     <!-- LOADING -->
     <div id="screen-loading" class="screen active" style="justify-content: center; align-items: center; height: 100%;">
       <div class="spinner"></div>
-      <p style="color: var(--text-muted); font-size: 13px; font-weight: 600; letter-spacing: 0.5px;">Đang tải thông tin...</p>
+      <p style="color: var(--text-muted); font-size: 14px; font-weight: 600;">Đang chuẩn bị giao dịch...</p>
     </div>
 
     <!-- ERROR -->
     <div id="screen-error" class="screen" style="justify-content: center; align-items: center; height: 100%;">
-      <div style="font-size: 42px; margin-bottom: 16px; filter: drop-shadow(0 0 10px rgba(248,113,113,0.3));">⚠️</div>
-      <h2 style="margin:0 0 8px; font-size: 20px;">Thông báo</h2>
-      <p id="error-msg" style="color: var(--accent-red); font-size: 13px; text-align: center; line-height: 1.6;">Liên kết không hợp lệ.</p>
+      <div style="font-size: 48px; margin-bottom: 16px;">⚠️</div>
+      <h2 style="margin:0 0 8px; font-size: 20px;">Liên kết không hợp lệ</h2>
+      <p id="error-msg" style="color: var(--text-muted); font-size: 14px; text-align: center; line-height: 1.6;">Giao dịch không tồn tại hoặc đã hết hạn.</p>
     </div>
 
-    <!-- BILL THANH TOÁN CHÍNH -->
+    <!-- BILL THANH TOÁN -->
     <div id="screen-bill" class="screen">
       
       <!-- GIAO DIỆN CHƯA THANH TOÁN -->
       <div id="bill-unpaid" style="display: flex; flex-direction: column; min-height: 100%;">
-        <div class="header-title" id="app-title-bill">ID: ---</div>
+        <div class="header-title" id="app-title-bill">MÃ GD: ---</div>
         
         <div class="card" style="margin-bottom: 0;">
           <div style="text-align: center;">
             <div class="qr-box">
-              <img id="qr-img" src="" alt="Mã QR">
+              <img id="qr-img" src="" alt="Mã QR" crossorigin="anonymous">
+            </div>
+            <!-- Nút Lưu QR -->
+            <div>
+              <button class="btn-save-qr" onclick="downloadQR()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Lưu mã QR
+              </button>
             </div>
           </div>
           
@@ -141,45 +136,58 @@
               <span class="copy-lbl">Ngân hàng</span>
               <span class="copy-val" id="cp-bank">VIETCOMBANK</span>
             </div>
-            <div class="btn-copy" onclick="copyText('cp-bank')">Copy</div>
+            <button class="btn-copy-icon" onclick="copyText('cp-bank')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </button>
           </div>
           <div class="copy-item">
             <div class="copy-info">
               <span class="copy-lbl">Số tài khoản</span>
               <span class="copy-val" id="cp-acc">TGE60603130946VCB</span>
             </div>
-            <div class="btn-copy" onclick="copyText('cp-acc')">Copy</div>
+            <button class="btn-copy-icon" onclick="copyText('cp-acc')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </button>
           </div>
           <div class="copy-item">
             <div class="copy-info">
               <span class="copy-lbl">Chủ tài khoản</span>
               <span class="copy-val" id="cp-name">DINH VIET TRUONG</span>
             </div>
-            <div class="btn-copy" onclick="copyText('cp-name')">Copy</div>
+            <button class="btn-copy-icon" onclick="copyText('cp-name')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </button>
           </div>
           <div class="copy-item">
             <div class="copy-info">
-              <span class="copy-lbl">Số tiền</span>
+              <span class="copy-lbl">Số tiền thanh toán</span>
               <span class="copy-val highlight" id="cp-amount">0 VNĐ</span>
             </div>
-            <div class="btn-copy" onclick="copyText('cp-amount')">Copy</div>
+            <button class="btn-copy-icon" onclick="copyText('cp-amount')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </button>
           </div>
           <div class="copy-item">
             <div class="copy-info">
-              <span class="copy-lbl">Nội dung</span>
+              <span class="copy-lbl">Nội dung (Bắt buộc)</span>
               <span class="copy-val" id="cp-content">---</span>
             </div>
-            <div class="btn-copy" onclick="copyText('cp-content')">Copy</div>
+            <button class="btn-copy-icon" onclick="copyText('cp-content')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </button>
           </div>
         </div>
         
-        <!-- Khối Lưu ý Mới (Hơi ngả tím) -->
+        <!-- Khối Lưu ý -->
         <div class="note-box">
-          <div class="note-title">📋 Lưu ý</div>
+          <div class="note-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            Lưu ý quan trọng
+          </div>
           <ul class="note-list">
-            <li><span>1.</span> Vui lòng nhập chính xác nội dung và số tiền yêu cầu từ hệ thống. Thông tin không chính xác sẽ không thể tự động duyệt trạng thái.</li>
-            <li><span>2.</span> Nếu không thể sử dụng mã QR Code, vui lòng sao chép tài khoản thanh toán.</li>
-            <li><span>3.</span> Khi chuyển khoản không làm mới trình duyệt.</li>
+            <li><span>1.</span> Nhập chính xác số tiền và nội dung để hệ thống tự động duyệt.</li>
+            <li><span>2.</span> Nếu không quét được QR, vui lòng dùng nút copy bên trên.</li>
+            <li><span>3.</span> KHÔNG tắt hay tải lại trang này trong lúc chuyển khoản.</li>
           </ul>
         </div>
       </div>
@@ -187,16 +195,15 @@
       <!-- GIAO DIỆN ĐÃ THANH TOÁN THÀNH CÔNG -->
       <div id="bill-paid" style="display: none; flex-direction: column; justify-content: center; height: 100%; text-align: center;">
         <div class="success-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
         </div>
-        <h2 style="margin: 0 0 20px; color: var(--accent-green); font-size: 20px;">Thanh toán thành công</h2>
+        <h2 style="margin: 0 0 24px; color: #0284C7; font-size: 22px;">Giao dịch thành công</h2>
         
         <div class="card" style="margin: 0; text-align: left;">
           <div class="row"><span class="label">Mã giao dịch</span><span class="value" id="bl-paid-id" style="font-family: monospace;">---</span></div>
-          
-          <div class="row"><span class="label">Hoàn tất lúc</span><span class="value" id="bl-paid-time" style="color: var(--accent-green);">--:--</span></div>
-          <div class="row" style="margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--glass-border);">
-            <span class="label">Số tiền</span><span class="value blue" id="bl-paid-amount" style="font-size: 16px;">0 VNĐ</span>
+          <div class="row"><span class="label">Hoàn tất lúc</span><span class="value" id="bl-paid-time">--:--</span></div>
+          <div class="row">
+            <span class="label">Số tiền đã nhận</span><span class="value" id="bl-paid-amount" style="color: var(--primary); font-size: 18px;">0 VNĐ</span>
           </div>
         </div>
       </div>
@@ -205,12 +212,12 @@
 
   <script>
     // ==========================================
-    // URL API GOOGLE SCRIPT CỦA BẠN
+    // URL API GOOGLE SCRIPT
     // ==========================================
     const GOOGLE_API_URL = "https://script.google.com/macros/s/AKfycbxGNzPtSc-oZjO-yq3GrqaXrvW1nnqJ-6yOGfD-Jv4ZzxorQQfHFGa9LvtOPg2CmHqv2w/exec";
-    // ==========================================
-
-    const BANK_ID = 'VIETCOMBANK';
+    
+    // THÔNG TIN NGÂN HÀNG CỐ ĐỊNH
+    const BANK_ID = 'vietcombank';
     const ACCOUNT_NO = 'TGE60603130946VCB';       
     const ACCOUNT_NAME = 'DINH VIET TRUONG';      
 
@@ -222,7 +229,7 @@
       currentId = urlParams.get('id');
       
       if (!currentId) {
-        document.getElementById('error-msg').innerText = "Vui lòng truy cập bằng đường link hợp lệ.";
+        document.getElementById('error-msg').innerText = "Vui lòng quét QR hoặc truy cập từ link hệ thống cung cấp.";
         switchScreen('error');
         return;
       }
@@ -271,7 +278,6 @@
       
       // ĐIỀN THÔNG TIN ĐÃ THANH TOÁN
       document.getElementById('bl-paid-id').innerText = data.id;
-      document.getElementById('bl-paid-time-create').innerText = data.creationTime || '--:--';
       document.getElementById('bl-paid-time').innerText = data.paymentTime || '--:--';
       document.getElementById('bl-paid-amount').innerText = displayAmount;
 
@@ -282,7 +288,7 @@
       } else {
         document.getElementById('bill-unpaid').style.display = 'flex';
         document.getElementById('bill-paid').style.display = 'none';
-        startPolling(); // Tự động quét 2s/lần
+        startPolling(); 
       }
     }
 
@@ -294,14 +300,68 @@
           .then(result => {
             if (result.success && (String(result.data.status).toLowerCase() === 'đã thanh toán' || String(result.data.status).toLowerCase() === 'thành công')) {
               renderData(result.data);
-              showToast("Thanh toán thành công!");
             }
           })
-          .catch(e => console.log("Lỗi ngầm"));
+          .catch(e => console.log("Đang chờ duyệt..."));
       }, 2000); 
     }
 
-    function copyText(id) { 
+    /* TÍNH NĂNG LƯU MÃ QR */
+    function downloadQR() {
+      showToast("Đang tạo ảnh...");
+      const qrUrl = document.getElementById('qr-img').src;
+      const amount = document.getElementById('cp-amount').innerText;
+      const content = document.getElementById('cp-content').innerText;
+
+      const img = new Image();
+      img.crossOrigin = "Anonymous"; 
+      img.onload = function() {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = 440;
+        canvas.height = 620;
+        
+        // Nền trắng tinh
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Vẽ mã QR
+        ctx.drawImage(img, 70, 40, 300, 300);
+        ctx.textAlign = 'center';
+        
+        // Chữ
+        ctx.fillStyle = '#0A2540';
+        ctx.font = 'bold 24px Arial, sans-serif';
+        ctx.fillText('THÔNG TIN THANH TOÁN', canvas.width / 2, 380);
+        
+        ctx.fillStyle = '#4F6784';
+        ctx.font = '18px Arial, sans-serif';
+        ctx.fillText('Mã GD: ' + currentId, canvas.width / 2, 420);
+        
+        ctx.fillStyle = '#0052FF';
+        ctx.font = 'bold 28px Arial, sans-serif';
+        ctx.fillText(amount, canvas.width / 2, 470);
+        
+        ctx.fillStyle = '#0A2540';
+        ctx.font = '18px Arial, sans-serif';
+        ctx.fillText('Nội dung: ' + content, canvas.width / 2, 520);
+        
+        ctx.fillStyle = '#94A3B8';
+        ctx.font = 'italic 14px Arial, sans-serif';
+        ctx.fillText('Sử dụng App Ngân hàng quét mã để thanh toán', canvas.width / 2, 580);
+        
+        const link = document.createElement('a');
+        link.download = 'QR_ThanhToan_' + currentId + '.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      };
+      
+      img.onerror = function() { showToast("Lỗi tải ảnh QR, vui lòng thử lại!"); }
+      img.src = qrUrl;
+    }
+
+   function copyText(id) { 
       var textToCopy = document.getElementById(id).innerText.replace(/ VNĐ/g, '').replace(/ đ/g, '').replace(/\./g, '');
       var textArea = document.createElement("textarea");
       textArea.value = textToCopy;
@@ -309,7 +369,7 @@
       textArea.select();
       document.execCommand("Copy");
       textArea.remove();
-      showToast("Đã copy!"); 
+      showToast("Đã copy thành công!"); 
     }
     
     function showToast(msg) {
