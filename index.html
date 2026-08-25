@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-  <title>Vietcombank</title>
-  <link rel="icon" href="https://portal.vietcombank.com.vn/favicon.ico" type="image/x-icon">
+  <title>Thanh toán online</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -40,10 +39,7 @@
     .screen.active { display: flex; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    .brand-header { text-align: center; margin-bottom: 8px; margin-top: 16px; flex-shrink: 0; }
-    .brand-logo { height: 48px; width: auto; object-fit: contain; }
-
-    .header-title { font-size: 13px; font-weight: 800; text-align: center; margin-bottom: 16px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; }
+    .header-title { font-size: 13px; font-weight: 800; text-align: center; margin-bottom: 16px; margin-top: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; }
     
     .card { background: var(--card-bg); border-radius: 24px; padding: 16px; margin-bottom: 16px; box-shadow: var(--shadow-soft); border: 1px solid rgba(255,255,255,0.8); }
     
@@ -92,10 +88,6 @@
   <div class="toast" id="toast">Đã sao chép!</div>
 
   <div class="app-container">
-    
-    <div class="brand-header">
-      <img src="https://api.vietqr.io/img/VCB.png" alt="Vietcombank" class="brand-logo">
-    </div>
 
     <!-- LOADING -->
     <div id="screen-loading" class="screen active" style="justify-content: center; align-items: center;">
@@ -122,6 +114,7 @@
             <div class="qr-box">
               <img id="qr-img" src="" alt="Mã QR" crossorigin="anonymous">
             </div>
+            <!-- Nút Lưu QR -->
             <div>
               <button class="btn-save-qr" onclick="downloadQR()">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
@@ -177,6 +170,7 @@
           </div>
         </div>
         
+        <!-- Khối Lưu ý -->
         <div class="note-box">
           <div class="note-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
@@ -298,7 +292,6 @@
         document.getElementById('bill-unpaid').style.display = 'none';
         document.getElementById('bill-paid').style.display = 'flex';
         
-        // Ngừng quét nếu đã thanh toán
         if (pollingInterval) {
             clearInterval(pollingInterval);
             pollingInterval = null;
@@ -307,7 +300,6 @@
         document.getElementById('bill-unpaid').style.display = 'flex';
         document.getElementById('bill-paid').style.display = 'none';
         
-        // Kích hoạt lại vòng lặp quét tự động 2s/lần nếu chưa chạy
         if (!pollingInterval) {
             startPolling();
         }
@@ -322,11 +314,8 @@
           .then(res => res.json())
           .then(result => {
             if (result.success && (String(result.data.status).toLowerCase() === 'đã thanh toán' || String(result.data.status).toLowerCase() === 'thành công')) {
-              // Hủy vòng lặp ngay khi phát hiện trạng thái đã thanh toán
               clearInterval(pollingInterval);
               pollingInterval = null;
-              
-              // Gọi renderData để chuyển màn hình
               renderData(result.data);
             }
           })
@@ -380,7 +369,7 @@
         ctx.fillText('Sử dụng App Ngân hàng quét mã để thanh toán', canvas.width / 2, 580);
         
         const link = document.createElement('a');
-        link.download = 'QR_Vietcombank_' + currentId + '.png';
+        link.download = 'QR_ThanhToan_' + currentId + '.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
       };
