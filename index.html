@@ -9,7 +9,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      /* Chuyển tông màu chủ đạo sang Xanh Vietcombank */
       --primary: #008947; 
       --primary-hover: #00703A;
       --primary-light: #E6F3EC;
@@ -29,7 +28,6 @@
     body { 
       font-family: 'Plus Jakarta Sans', sans-serif; 
       background: var(--bg-color);
-      /* Nền gradient hiện đại, nhẹ nhàng (Ánh xanh lá) */
       background-image: radial-gradient(at 0% 0%, hsla(146, 100%, 94%, 1) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(150, 100%, 94%, 1) 0, transparent 50%);
       display: flex; 
       justify-content: center; 
@@ -43,24 +41,20 @@
     .screen.active { display: flex; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* Logo Vietcombank */
+    /* Logo Vietcombank (cập nhật mới) */
     .brand-header { text-align: center; margin-bottom: 8px; margin-top: 4px; }
-    .brand-logo { height: 28px; width: auto; object-fit: contain; }
+    .brand-logo { height: 32px; width: auto; object-fit: contain; }
 
     .header-title { font-size: 13px; font-weight: 800; text-align: center; margin-bottom: 16px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; }
     
-    /* Thẻ Card Trắng Tinh Tế */
     .card { background: var(--card-bg); border-radius: 24px; padding: 16px; margin-bottom: 16px; box-shadow: var(--shadow-soft); border: 1px solid rgba(255,255,255,0.8); }
     
-    /* Khối QR Code */
     .qr-box { text-align: center; background: #ffffff; padding: 12px; border-radius: 20px; margin: 0 auto 12px; display: inline-block; width: fit-content; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
     .qr-box img { width: clamp(140px, 42vw, 170px); height: auto; aspect-ratio: 1/1; border-radius: 12px; display: block; }
     
-    /* Nút lưu mã QR sang trọng */
     .btn-save-qr { background: var(--primary-light); color: var(--primary); border: none; border-radius: 50px; padding: 8px 20px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; font-family: inherit; margin-bottom: 12px; }
     .btn-save-qr:active { transform: scale(0.95); background: #CBE6D8; }
 
-    /* Các dòng Copy thông tin */
     .copy-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-color); transition: all 0.2s; }
     .copy-item:last-child { border-bottom: none; padding-bottom: 4px; }
     .copy-item:first-child { padding-top: 4px; }
@@ -70,12 +64,10 @@
     .copy-val { font-size: 14px; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .copy-val.highlight { color: var(--primary); font-size: 16px; font-weight: 800; }
     
-    /* Nút Copy Icon thay cho Text */
     .btn-copy-icon { background: #F8FAFC; border: 1px solid var(--border-color); color: var(--text-muted); border-radius: 12px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: all 0.2s; }
     .btn-copy-icon:active { transform: scale(0.9); background: var(--primary-light); color: var(--primary); border-color: var(--primary-light); }
     .btn-copy-icon svg { width: 16px; height: 16px; }
 
-    /* Khối Lưu ý phong cách hiện đại */
     .note-box { background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 16px; padding: 14px; margin-top: 8px; text-align: left; }
     .note-title { font-size: 13px; font-weight: 800; color: #D97706; display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
     .note-list { list-style: none; padding: 0; margin: 0; font-size: 12px; color: #64748B; line-height: 1.5; }
@@ -83,7 +75,6 @@
     .note-list li:last-child { margin-bottom: 0; }
     .note-list li span { font-weight: 800; color: #D97706; }
 
-    /* Màn hình thành công */
     .success-icon { width: 68px; height: 68px; background: var(--primary-light); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; border: 4px solid #F0FDF4; box-shadow: 0 10px 20px rgba(0, 137, 71, 0.1); animation: pulse 2s infinite; }
     @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0, 137, 71, 0.2); } 70% { box-shadow: 0 0 0 15px rgba(0, 137, 71, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 137, 71, 0); } }
     
@@ -92,7 +83,6 @@
     .row .label { color: var(--text-muted); font-weight: 500; }
     .row .value { font-weight: 800; color: var(--text-main); }
     
-    /* Thông báo nổi */
     .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px); background: #1E293B; color: #fff; padding: 12px 24px; border-radius: 30px; font-size: 13px; font-weight: 600; opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); z-index: 100; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
     .toast.show { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
 
@@ -120,9 +110,9 @@
     <!-- BILL THANH TOÁN -->
     <div id="screen-bill" class="screen">
       
-      <!-- LOGO VIETCOMBANK TRÊN CÙNG -->
+      <!-- LOGO VIETCOMBANK TRÊN CÙNG (ĐÃ ĐỔI LINK THEO YÊU CẦU) -->
       <div class="brand-header">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b3/Vietcombank_logo.svg" alt="Vietcombank" class="brand-logo">
+        <img src="https://api.vietqr.io/img/VCB.png" alt="Vietcombank" class="brand-logo">
       </div>
 
       <!-- GIAO DIỆN CHƯA THANH TOÁN -->
@@ -209,7 +199,7 @@
         <div class="success-icon">
           <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
         </div>
-        <h2 style="margin: 0 0 24px; color: var(--primary); font-size: 22px;">Giao dịch thành công</h2>
+        <h2 style="margin: 0 0 24px; color: #0284C7; font-size: 22px;">Giao dịch thành công</h2>
         
         <div class="card" style="margin: 0; text-align: left;">
           <div class="row"><span class="label">Mã giao dịch</span><span class="value" id="bl-paid-id" style="font-family: monospace;">---</span></div>
@@ -253,6 +243,7 @@
         .then(res => res.json())
         .then(result => {
           if (result.success) {
+            document.title = "Đơn Hàng " + result.data.id;
             renderData(result.data);
             switchScreen('bill');
           } else {
@@ -317,8 +308,7 @@
       }, 2000); 
     }
 
-    
-       /* TÍNH NĂNG LƯU MÃ QR */
+    /* TÍNH NĂNG LƯU MÃ QR */
     function downloadQR() {
       showToast("Đang tạo ảnh...");
       const qrUrl = document.getElementById('qr-img').src;
@@ -373,7 +363,7 @@
       img.src = qrUrl;
     }
 
-    function copyText(id) { 
+ function copyText(id) { 
       var textToCopy = document.getElementById(id).innerText.replace(/ VNĐ/g, '').replace(/ đ/g, '').replace(/\./g, '');
       var textArea = document.createElement("textarea");
       textArea.value = textToCopy;
