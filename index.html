@@ -210,23 +210,24 @@
 
   <script>
     // ==========================================
-    // URL API GOOGLE SCRIPT
+    // URL API GOOGLE SCRIPT CỦA BẠN
     // ==========================================
     const GOOGLE_API_URL = "https://script.google.com/macros/s/AKfycbxGNzPtSc-oZjO-yq3GrqaXrvW1nnqJ-6yOGfD-Jv4ZzxorQQfHFGa9LvtOPg2CmHqv2w/exec";
     
-    // THÔNG TIN NGÂN HÀNG CỐ ĐỊNH
+    // THÔNG TIN NGÂN HÀNG
     const BANK_ID = 'vietcombank';
     const ACCOUNT_NO = 'TGE60603130946VCB';       
     const ACCOUNT_NAME = 'DINH VIET TRUONG';      
 
     let currentId = "";
     let pollingInterval;
+    let isRequestInProgress = false; // Ngăn chặn việc gọi API chồng chéo
 
     window.onload = function() {
       const urlParams = new URLSearchParams(window.location.search);
       currentId = urlParams.get('id');
-      const am = urlParams.get('am'); // Lấy số tiền từ param (Nếu có)
-      const nd = urlParams.get('nd'); // Lấy nội dung từ param (Nếu có)
+      const am = urlParams.get('am'); 
+      const nd = urlParams.get('nd'); 
       
       if (!currentId) {
         document.getElementById('error-msg').innerText = "Vui lòng quét QR hoặc truy cập từ link hệ thống cung cấp.";
@@ -234,7 +235,6 @@
         return;
       }
       
-      // TẢI DỮ LIỆU SIÊU TỐC (0 Giây) NẾU LINK CÓ CHỨA SẴN THÔNG TIN
       if (am && nd) {
           document.title = "Đơn Hàng " + currentId;
           renderData({
@@ -244,10 +244,8 @@
               status: "chờ thanh toán"
           });
           switchScreen('bill');
-          startPolling(); // Chỉ gọi API Google để check ngầm tiền về
-      } 
-      // NẾU CHỈ CÓ ID THÌ GỌI API GOOGLE ĐỂ KÉO DỮ LIỆU (Mất khoảng 2s)
-      else {
+          startPolling(); 
+      } else {
           fetchData();
       }
     };
@@ -285,14 +283,14 @@
       let rawAmount = String(data.amount).replace(/[^0-9]/g, '');
       let displayAmount = rawAmount.replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " VNĐ";
 
-      // ĐIỀN BILL CHƯA THANH TOÁN
+      // Màn hình Chưa thanh toán
       document.getElementById('app-title-bill').innerText = "MÃ GD: " + data.id;
       document.getElementById('cp-amount').innerText = displayAmount;
       document.getElementById('cp-content').innerText = data.content;
       
       document.getElementById('qr-img').src = 'https://img.vietqr.io/image/' + BANK_ID + '-' + ACCOUNT_NO + '-qr_only.png?amount=' + rawAmount + '&addInfo=' + encodeURIComponent(data.content || '') + '&accountName=' + encodeURIComponent(ACCOUNT_NAME);
       
-      // ĐIỀN THÔNG TIN ĐÃ THANH TOÁN
+      // Màn hình Đã thanh toán
       document.getElementById('bl-paid-id').innerText = data.id;
       document.getElementById('bl-paid-time').innerText = data.paymentTime || '--:--';
       document.getElementById('bl-paid-amount').innerText = displayAmount;
@@ -307,21 +305,29 @@
       }
     }
 
+    // Cơ chế Quét Ngầm (Polling) Tối ưu hóa
     function startPolling() {
       if(pollingInterval) clearInterval(pollingInterval);
+      
       pollingInterval = setInterval(function() {
+        if (isRequestInProgress) return; // Nếu lệnh trước chưa phản hồi xong thì bỏ qua lượt quét này
+        
+        isRequestInProgress = true;
         fetch(GOOGLE_API_URL + "?action=checkStatus&id=" + currentId)
           .then(res => res.json())
           .then(result => {
+            isRequestInProgress = false;
             if (result.success && (String(result.data.status).toLowerCase() === 'đã thanh toán' || String(result.data.status).toLowerCase() === 'thành công')) {
               renderData(result.data);
             }
           })
-          .catch(e => console.log("Đang chờ duyệt..."));
+          .catch(e => {
+            isRequestInProgress = false;
+            console.log("Đang chờ duyệt...");
+          });
       }, 2000); 
     }
 
-    
     /* TÍNH NĂNG LƯU MÃ QR */
     function downloadQR() {
       showToast("Đang tạo ảnh...");
@@ -338,15 +344,12 @@
         canvas.width = 440;
         canvas.height = 620;
         
-        // Nền trắng tinh
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
-        // Vẽ mã QR
         ctx.drawImage(img, 70, 40, 300, 300);
         ctx.textAlign = 'center';
         
-        // Chữ
         ctx.fillStyle = '#0A2540';
         ctx.font = 'bold 24px Arial, sans-serif';
         ctx.fillText('THÔNG TIN THANH TOÁN', canvas.width / 2, 380);
