@@ -100,7 +100,7 @@
     <!-- LOADING -->
     <div id="screen-loading" class="screen active" style="justify-content: center; align-items: center;">
       <div class="spinner"></div>
-      <p style="color: var(--text-muted); font-size: 14px; font-weight: 600;">Đang kết nối hệ thống...</p>
+      <p style="color: var(--text-muted); font-size: 14px; font-weight: 600;">Đang tải dữ liệu...</p>
     </div>
 
     <!-- ERROR -->
@@ -210,18 +210,17 @@
 
   <script>
     // ==========================================
-    // URL API GOOGLE SCRIPT CỦA BẠN
+    // URL API GOOGLE SCRIPT
     // ==========================================
     const GOOGLE_API_URL = "https://script.google.com/macros/s/AKfycbxGNzPtSc-oZjO-yq3GrqaXrvW1nnqJ-6yOGfD-Jv4ZzxorQQfHFGa9LvtOPg2CmHqv2w/exec";
     
-    // THÔNG TIN NGÂN HÀNG
+    // THÔNG TIN NGÂN HÀNG CỐ ĐỊNH
     const BANK_ID = 'vietcombank';
     const ACCOUNT_NO = 'TGE60603130946VCB';       
     const ACCOUNT_NAME = 'DINH VIET TRUONG';      
 
     let currentId = "";
     let pollingInterval;
-    let isRequestInProgress = false; // Ngăn chặn việc gọi API chồng chéo
 
     window.onload = function() {
       const urlParams = new URLSearchParams(window.location.search);
@@ -235,6 +234,7 @@
         return;
       }
       
+      // Khởi chạy lấy dữ liệu siêu tốc nếu truyền sẵn param
       if (am && nd) {
           document.title = "Đơn Hàng " + currentId;
           renderData({
@@ -244,7 +244,6 @@
               status: "chờ thanh toán"
           });
           switchScreen('bill');
-          startPolling(); 
       } else {
           fetchData();
       }
@@ -283,14 +282,14 @@
       let rawAmount = String(data.amount).replace(/[^0-9]/g, '');
       let displayAmount = rawAmount.replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " VNĐ";
 
-      // Màn hình Chưa thanh toán
+      // ĐIỀN BILL CHƯA THANH TOÁN
       document.getElementById('app-title-bill').innerText = "MÃ GD: " + data.id;
       document.getElementById('cp-amount').innerText = displayAmount;
       document.getElementById('cp-content').innerText = data.content;
       
       document.getElementById('qr-img').src = 'https://img.vietqr.io/image/' + BANK_ID + '-' + ACCOUNT_NO + '-qr_only.png?amount=' + rawAmount + '&addInfo=' + encodeURIComponent(data.content || '') + '&accountName=' + encodeURIComponent(ACCOUNT_NAME);
       
-      // Màn hình Đã thanh toán
+      // ĐIỀN THÔNG TIN ĐÃ THANH TOÁN
       document.getElementById('bl-paid-id').innerText = data.id;
       document.getElementById('bl-paid-time').innerText = data.paymentTime || '--:--';
       document.getElementById('bl-paid-amount').innerText = displayAmount;
@@ -298,33 +297,40 @@
       if (isPaid) {
         document.getElementById('bill-unpaid').style.display = 'none';
         document.getElementById('bill-paid').style.display = 'flex';
-        if (pollingInterval) clearInterval(pollingInterval);
+        
+        // Ngừng quét nếu đã thanh toán
+        if (pollingInterval) {
+            clearInterval(pollingInterval);
+            pollingInterval = null;
+        }
       } else {
         document.getElementById('bill-unpaid').style.display = 'flex';
         document.getElementById('bill-paid').style.display = 'none';
+        
+        // Kích hoạt lại vòng lặp quét tự động 2s/lần nếu chưa chạy
+        if (!pollingInterval) {
+            startPolling();
+        }
       }
     }
 
-    // Cơ chế Quét Ngầm (Polling) Tối ưu hóa
+    // Quét ngầm trạng thái 2 giây / lần
     function startPolling() {
       if(pollingInterval) clearInterval(pollingInterval);
-      
       pollingInterval = setInterval(function() {
-        if (isRequestInProgress) return; // Nếu lệnh trước chưa phản hồi xong thì bỏ qua lượt quét này
-        
-        isRequestInProgress = true;
         fetch(GOOGLE_API_URL + "?action=checkStatus&id=" + currentId)
           .then(res => res.json())
           .then(result => {
-            isRequestInProgress = false;
             if (result.success && (String(result.data.status).toLowerCase() === 'đã thanh toán' || String(result.data.status).toLowerCase() === 'thành công')) {
+              // Hủy vòng lặp ngay khi phát hiện trạng thái đã thanh toán
+              clearInterval(pollingInterval);
+              pollingInterval = null;
+              
+              // Gọi renderData để chuyển màn hình
               renderData(result.data);
             }
           })
-          .catch(e => {
-            isRequestInProgress = false;
-            console.log("Đang chờ duyệt...");
-          });
+          .catch(e => console.log("Đang chờ duyệt ngầm..."));
       }, 2000); 
     }
 
@@ -344,12 +350,15 @@
         canvas.width = 440;
         canvas.height = 620;
         
+        // Nền trắng tinh
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
+        // Vẽ mã QR
         ctx.drawImage(img, 70, 40, 300, 300);
         ctx.textAlign = 'center';
         
+        // Chữ
         ctx.fillStyle = '#0A2540';
         ctx.font = 'bold 24px Arial, sans-serif';
         ctx.fillText('THÔNG TIN THANH TOÁN', canvas.width / 2, 380);
