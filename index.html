@@ -40,7 +40,6 @@
     .screen.active { display: flex; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* Logo Vietcombank (Đã phóng to và cố định Header) */
     .brand-header { text-align: center; margin-bottom: 8px; margin-top: 16px; flex-shrink: 0; }
     .brand-logo { height: 48px; width: auto; object-fit: contain; }
 
@@ -94,7 +93,6 @@
 
   <div class="app-container">
     
-    <!-- LOGO HIỆN XUYÊN SUỐT TRÊN TẤT CẢ MÀN HÌNH -->
     <div class="brand-header">
       <img src="https://api.vietqr.io/img/VCB.png" alt="Vietcombank" class="brand-logo">
     </div>
@@ -102,7 +100,7 @@
     <!-- LOADING -->
     <div id="screen-loading" class="screen active" style="justify-content: center; align-items: center;">
       <div class="spinner"></div>
-      <p style="color: var(--text-muted); font-size: 14px; font-weight: 600;">Đang tải dữ liệu...</p>
+      <p style="color: var(--text-muted); font-size: 14px; font-weight: 600;">Đang kết nối hệ thống...</p>
     </div>
 
     <!-- ERROR -->
@@ -124,7 +122,6 @@
             <div class="qr-box">
               <img id="qr-img" src="" alt="Mã QR" crossorigin="anonymous">
             </div>
-            <!-- Nút Lưu QR -->
             <div>
               <button class="btn-save-qr" onclick="downloadQR()">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
@@ -180,7 +177,6 @@
           </div>
         </div>
         
-        <!-- Khối Lưu ý -->
         <div class="note-box">
           <div class="note-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
@@ -229,13 +225,31 @@
     window.onload = function() {
       const urlParams = new URLSearchParams(window.location.search);
       currentId = urlParams.get('id');
+      const am = urlParams.get('am'); // Lấy số tiền từ param (Nếu có)
+      const nd = urlParams.get('nd'); // Lấy nội dung từ param (Nếu có)
       
       if (!currentId) {
         document.getElementById('error-msg').innerText = "Vui lòng quét QR hoặc truy cập từ link hệ thống cung cấp.";
         switchScreen('error');
         return;
       }
-      fetchData();
+      
+      // TẢI DỮ LIỆU SIÊU TỐC (0 Giây) NẾU LINK CÓ CHỨA SẴN THÔNG TIN
+      if (am && nd) {
+          document.title = "Đơn Hàng " + currentId;
+          renderData({
+              id: currentId,
+              amount: am,
+              content: nd,
+              status: "chờ thanh toán"
+          });
+          switchScreen('bill');
+          startPolling(); // Chỉ gọi API Google để check ngầm tiền về
+      } 
+      // NẾU CHỈ CÓ ID THÌ GỌI API GOOGLE ĐỂ KÉO DỮ LIỆU (Mất khoảng 2s)
+      else {
+          fetchData();
+      }
     };
 
     function fetchData() {
@@ -290,7 +304,6 @@
       } else {
         document.getElementById('bill-unpaid').style.display = 'flex';
         document.getElementById('bill-paid').style.display = 'none';
-        startPolling(); 
       }
     }
 
@@ -308,6 +321,7 @@
       }, 2000); 
     }
 
+    
     /* TÍNH NĂNG LƯU MÃ QR */
     function downloadQR() {
       showToast("Đang tạo ảnh...");
@@ -362,7 +376,8 @@
       img.onerror = function() { showToast("Lỗi tải ảnh QR, vui lòng thử lại!"); }
       img.src = qrUrl;
     }
-function copyText(id) { 
+
+    function copyText(id) { 
       var textToCopy = document.getElementById(id).innerText.replace(/ VNĐ/g, '').replace(/ đ/g, '').replace(/\./g, '');
       var textArea = document.createElement("textarea");
       textArea.value = textToCopy;
