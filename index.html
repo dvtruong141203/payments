@@ -35,52 +35,52 @@
 
     .app-container { width: 100%; max-width: 400px; height: 100vh; height: 100dvh; position: relative; z-index: 1; display: flex; flex-direction: column; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
     
-    .screen { display: none; flex-direction: column; flex-grow: 1; padding: clamp(16px, 4vw, 24px); animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+    .screen { display: none; flex-direction: column; flex-grow: 1; padding: clamp(12px, 4vw, 20px); animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
     .screen.active { display: flex; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-    .header-title { font-size: 13px; font-weight: 800; text-align: center; margin-bottom: 16px; margin-top: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; }
+    .header-title { font-size: 14px; font-weight: 800; text-align: center; margin-bottom: 12px; margin-top: 4px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
     
-    .card { background: var(--card-bg); border-radius: 24px; padding: 16px; margin-bottom: 16px; box-shadow: var(--shadow-soft); border: 1px solid rgba(255,255,255,0.8); }
+    .card { background: var(--card-bg); border-radius: 20px; padding: 14px; margin-bottom: 12px; box-shadow: var(--shadow-soft); border: 1px solid rgba(255,255,255,0.8); }
     
-    .qr-box { text-align: center; background: #ffffff; padding: 12px; border-radius: 20px; margin: 0 auto 12px; display: inline-block; width: fit-content; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-    .qr-box img { width: clamp(140px, 42vw, 170px); height: auto; aspect-ratio: 1/1; border-radius: 12px; display: block; }
+    .qr-box { text-align: center; background: #ffffff; padding: 10px; border-radius: 16px; margin: 0 auto 12px; display: inline-block; width: fit-content; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+    .qr-box img { width: clamp(130px, 40vw, 160px); height: auto; aspect-ratio: 1/1; border-radius: 10px; display: block; }
     
-    .btn-save-qr { background: var(--primary-light); color: var(--primary); border: none; border-radius: 50px; padding: 8px 20px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; font-family: inherit; margin-bottom: 12px; }
+    .btn-save-qr { background: var(--primary-light); color: var(--primary); border: none; border-radius: 20px; padding: 8px 18px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s; font-family: inherit; box-shadow: 0 4px 12px rgba(0, 137, 71, 0.1); margin-bottom: 12px; }
     .btn-save-qr:active { transform: scale(0.95); background: #CBE6D8; }
 
-    .copy-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-color); transition: all 0.2s; }
-    .copy-item:last-child { border-bottom: none; padding-bottom: 4px; }
-    .copy-item:first-child { padding-top: 4px; }
+    .copy-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: rgba(0, 0, 0, 0.02); border: 1px solid rgba(0, 0, 0, 0.03); border-radius: 10px; margin-bottom: 6px; transition: all 0.2s; }
+    .copy-item:active { background: rgba(0, 0, 0, 0.05); }
+    .copy-item:last-child { margin-bottom: 0; }
     
-    .copy-info { display: flex; flex-direction: column; overflow: hidden; padding-right: 12px; width: 100%; }
-    .copy-lbl { font-size: 11px; color: var(--text-muted); font-weight: 600; margin-bottom: 4px; }
-    .copy-val { font-size: 14px; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .copy-val.highlight { color: var(--primary); font-size: 16px; font-weight: 800; }
+    .copy-info { display: flex; flex-direction: column; overflow: hidden; padding-right: 10px; width: 100%; }
+    .copy-lbl { font-size: 9px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-bottom: 2px; letter-spacing: 0.5px; }
+    .copy-val { font-size: 13px; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .copy-val.highlight { color: var(--primary); font-size: 14px; font-weight: 800; }
     
-    .btn-copy-icon { background: #F8FAFC; border: 1px solid var(--border-color); color: var(--text-muted); border-radius: 12px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: all 0.2s; }
+    .btn-copy-icon { background: #F8FAFC; border: 1px solid var(--border-color); color: var(--text-muted); border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: all 0.2s; }
     .btn-copy-icon:active { transform: scale(0.9); background: var(--primary-light); color: var(--primary); border-color: var(--primary-light); }
-    .btn-copy-icon svg { width: 16px; height: 16px; }
+    .btn-copy-icon svg { width: 14px; height: 14px; }
 
-    .note-box { background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 16px; padding: 14px; margin-top: 8px; text-align: left; }
+    .note-box { background: rgba(245, 158, 11, 0.08); border: 1px dashed rgba(245, 158, 11, 0.2); border-radius: 14px; padding: 12px; margin-top: 12px; text-align: left; }
     .note-title { font-size: 13px; font-weight: 800; color: #D97706; display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
-    .note-list { list-style: none; padding: 0; margin: 0; font-size: 12px; color: #64748B; line-height: 1.5; }
+    .note-list { list-style: none; padding: 0; margin: 0; font-size: 11px; color: #64748B; line-height: 1.5; }
     .note-list li { margin-bottom: 6px; display: flex; align-items: flex-start; gap: 6px; }
     .note-list li:last-child { margin-bottom: 0; }
     .note-list li span { font-weight: 800; color: #D97706; }
 
-    .success-icon { width: 68px; height: 68px; background: var(--primary-light); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; border: 4px solid #F0FDF4; box-shadow: 0 10px 20px rgba(0, 137, 71, 0.1); animation: pulse 2s infinite; }
+    .success-icon { width: 64px; height: 64px; background: var(--primary-light); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; border: 4px solid #F0FDF4; box-shadow: 0 10px 20px rgba(0, 137, 71, 0.1); animation: pulse 2s infinite; }
     @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0, 137, 71, 0.2); } 70% { box-shadow: 0 0 0 15px rgba(0, 137, 71, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 137, 71, 0); } }
     
-    .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; font-size: 14px; padding-bottom: 12px; border-bottom: 1px dashed var(--border-color); }
+    .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 13px; padding-bottom: 10px; border-bottom: 1px dashed var(--border-color); }
     .row:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
     .row .label { color: var(--text-muted); font-weight: 500; }
     .row .value { font-weight: 800; color: var(--text-main); }
     
-    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px); background: #1E293B; color: #fff; padding: 12px 24px; border-radius: 30px; font-size: 13px; font-weight: 600; opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); z-index: 100; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(20px); background: #1E293B; color: #fff; padding: 10px 20px; border-radius: 30px; font-size: 12px; font-weight: 600; opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); z-index: 100; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
     .toast.show { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
 
-    .spinner { border: 3px solid rgba(0, 137, 71, 0.1); width: 36px; height: 36px; border-radius: 50%; border-left-color: var(--primary); animation: spin 1s linear infinite; margin-bottom: 16px; }
+    .spinner { border: 3px solid rgba(0, 137, 71, 0.1); width: 32px; height: 32px; border-radius: 50%; border-left-color: var(--primary); animation: spin 1s linear infinite; margin-bottom: 16px; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
   </style>
 </head>
@@ -90,16 +90,16 @@
   <div class="app-container">
 
     <!-- LOADING -->
-    <div id="screen-loading" class="screen active" style="justify-content: center; align-items: center;">
+    <div id="screen-loading" class="screen active" style="justify-content: center; align-items: center; height: 100%;">
       <div class="spinner"></div>
-      <p style="color: var(--text-muted); font-size: 14px; font-weight: 600;">Đang tải dữ liệu...</p>
+      <p style="color: var(--text-muted); font-size: 13px; font-weight: 600;">Đang kết nối hệ thống...</p>
     </div>
 
     <!-- ERROR -->
-    <div id="screen-error" class="screen" style="justify-content: center; align-items: center;">
-      <div style="font-size: 48px; margin-bottom: 16px;">⚠️</div>
+    <div id="screen-error" class="screen" style="justify-content: center; align-items: center; height: 100%;">
+      <div style="font-size: 42px; margin-bottom: 16px;">⚠️</div>
       <h2 style="margin:0 0 8px; font-size: 20px;">Liên kết không hợp lệ</h2>
-      <p id="error-msg" style="color: var(--text-muted); font-size: 14px; text-align: center; line-height: 1.6;">Giao dịch không tồn tại hoặc đã hết hạn.</p>
+      <p id="error-msg" style="color: var(--text-muted); font-size: 13px; text-align: center; line-height: 1.6;">Giao dịch không tồn tại hoặc đã hết hạn.</p>
     </div>
 
     <!-- BILL THANH TOÁN -->
@@ -117,7 +117,7 @@
             <!-- Nút Lưu QR -->
             <div>
               <button class="btn-save-qr" onclick="downloadQR()">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                 Lưu mã QR
               </button>
             </div>
@@ -170,10 +170,9 @@
           </div>
         </div>
         
-        <!-- Khối Lưu ý -->
         <div class="note-box">
           <div class="note-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
             Lưu ý quan trọng
           </div>
           <ul class="note-list">
@@ -187,7 +186,7 @@
       <!-- GIAO DIỆN ĐÃ THANH TOÁN THÀNH CÔNG -->
       <div id="bill-paid" style="display: none; flex-direction: column; justify-content: center; height: 100%; text-align: center;">
         <div class="success-icon">
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
         </div>
         <h2 style="margin: 0 0 24px; color: var(--primary); font-size: 22px;">Giao dịch thành công</h2>
         
@@ -195,7 +194,7 @@
           <div class="row"><span class="label">Mã giao dịch</span><span class="value" id="bl-paid-id" style="font-family: monospace;">---</span></div>
           <div class="row"><span class="label">Thời gian thanh toán</span><span class="value" id="bl-paid-time">--:--</span></div>
           <div class="row">
-            <span class="label">Số tiền đã nhận</span><span class="value" id="bl-paid-amount" style="color: var(--primary); font-size: 18px;">0 VNĐ</span>
+            <span class="label">Số tiền đã nhận</span><span class="value" id="bl-paid-amount" style="color: var(--primary); font-size: 16px;">0 VNĐ</span>
           </div>
         </div>
       </div>
@@ -228,9 +227,9 @@
         return;
       }
       
-      // Khởi chạy lấy dữ liệu siêu tốc nếu truyền sẵn param
+      // Tải giao diện ngay lập tức nếu có param số tiền & nội dung
       if (am && nd) {
-          document.title = "Thanh toán Online";
+          document.title = "Đơn Hàng " + currentId;
           renderData({
               id: currentId,
               amount: am,
@@ -257,7 +256,7 @@
           }
         })
         .catch(err => {
-          document.getElementById('error-msg').innerText = "Lỗi kết nối máy chủ dữ liệu. Vui lòng thử lại.";
+          document.getElementById('error-msg').innerText = "Lỗi kết nối hệ thống. Vui lòng thử lại.";
           switchScreen('error');
         });
     }
@@ -306,7 +305,7 @@
       }
     }
 
-    // Quét ngầm trạng thái 2 giây / lần
+    // Quét ngầm kiểm tra trạng thái 2 giây / lần
     function startPolling() {
       if(pollingInterval) clearInterval(pollingInterval);
       pollingInterval = setInterval(function() {
@@ -319,13 +318,13 @@
               renderData(result.data);
             }
           })
-          .catch(e => console.log("Đang chờ duyệt ngầm..."));
+          .catch(e => console.log("Đang chờ thanh toán..."));
       }, 2000); 
     }
 
     /* TÍNH NĂNG LƯU MÃ QR */
     function downloadQR() {
-      showToast("Đang tạo ảnh...");
+      showToast("Đang tải ảnh...");
       const qrUrl = document.getElementById('qr-img').src;
       const amount = document.getElementById('cp-amount').innerText;
       const content = document.getElementById('cp-content').innerText;
@@ -369,6 +368,7 @@
         ctx.fillText('Sử dụng App Ngân hàng quét mã để thanh toán', canvas.width / 2, 580);
         
         const link = document.createElement('a');
+        // Đổi tên ảnh tải về thành QR_ThanhToan_
         link.download = 'QR_ThanhToan_' + currentId + '.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
@@ -386,7 +386,7 @@
       textArea.select();
       document.execCommand("Copy");
       textArea.remove();
-      showToast("Đã copy thành công!"); 
+      showToast("Đã sao chép thành công!"); 
     }
     
     function showToast(msg) {
